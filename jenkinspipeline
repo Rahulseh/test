@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+
+    environment {
+        DIR_PATH = '/blob/main/jenkinspipeline' // Directory envrionment variable
+        TESTING_ENV = 'staging' // Example environment variable for testing
+        PROD_ENV = 'production' // Example environment variable for prod
+
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Fetch the source code from the source code from the directory path specified by the environment variable ${env.DIR_PATH}'
+                echo 'Compile the code and generate any necessary artifacts'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                echo 'Running integration tests...'
+            }
+        }
+
+        stage('Code Quality Check') {
+            steps {
+                echo 'Checking the quality of the code...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy the application to a testing environment specified by the environment variable'
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                script {
+                    echo 'Waiting for manual approval...'
+                    sleep 10 // Simulate manual approval with a 10-second pause
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploy the code to the production environment using the environment variable specifying the environment name'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
